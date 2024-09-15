@@ -9,5 +9,6 @@ function submitApplication(e) {
     }
     // TODO: Alert the user of the job that they applied for!
     alert(`Thank you for applying to be a ${selectedJob}`);
+    //small change
     
 }
