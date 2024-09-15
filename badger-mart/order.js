@@ -59,14 +59,29 @@ function roundMoney(num) {
 }
 
 function calculateSubtotal() {
-	return 0.00; // TODO calculateSubtotal
+	let subtotal = 0;
+	for (let item in ITEMS) {
+		
+		const quantity = parseInt(document.getElementById(`${ITEMS[item]}-quantity`).value);
+		const price = parseFloat(document.getElementById(`${ITEMS[item]}-price`).innerText);
+		subtotal += quantity * price;
+	}
+	return subtotal; // TODO calculateSubtotal
 }
 
 function calculateSalesTax() {
-	return 0.00; // TODO calculateSalesTax
+	const sub = calculateSubtotal();
+	const state = document.getElementById("state-tax").value;
+	const tax = getSalesTaxRateForState(state);
+	return (sub*tax); // TODO calculateSalesTax
 }
 
 function getSalesTaxRateForState(state) {
+	for (let key in SALES_TAX) {
+		if (state == key) {
+			return SALES_TAX[key];
+		}
+	}
 	return 0.00; // TODO getSalesTaxRateForState
 }
 
@@ -84,3 +99,9 @@ document.getElementById("btn-sales-tax").addEventListener("click", () => {
 });
 
 // TODO Add an event listener to btn-checkout
+document.getElementById("btn-checkout").addEventListener("click", () => {
+	const sub = calculateSubtotal();
+	const tax = calculateSalesTax();
+	const total = (sub + tax).toFixed(2);
+	alert("Your total is: $" + total);
+});
